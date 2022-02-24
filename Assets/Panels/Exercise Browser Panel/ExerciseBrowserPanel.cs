@@ -1,47 +1,84 @@
-﻿using UnityEngine;
+﻿using Dialogs.Exercise_Dialog;
+using UnityEngine;
 using UnityEngine.UI;
 
-public class ExerciseBrowserPanel : MonoBehaviour
+namespace Panels.Exercise_Browser_Panel
 {
-	public GameObject titleTextGameObject;
+    /// <summary>
+    /// A panel showing a list of exercises for the user to choose
+    /// </summary>
+    public class ExerciseBrowserPanel : MonoBehaviour
+    {
+        /// <summary>
+        /// Game object for the UI element that shows the title of an exercise
+        /// </summary>
+        public GameObject titleTextGameObject;
 
-	[SerializeField]
-	GameObject authorTextGameObject;
+        /// <summary>
+        /// Game object for the UI element that shows the author of an exercise
+        /// </summary>
+        [SerializeField, Tooltip("Game object for the UI element that shows the author of an exercise")]
+        private GameObject authorTextGameObject;
 
-	[SerializeField]
-	GameObject facultyTextGameObject;
+        /// <summary>
+        /// Game object for the UI element that shows the faculty an exercise originated from
+        /// </summary>
+        [SerializeField, Tooltip("Game object for the UI element that shows the faculty an exercise originated from")]
+        private GameObject facultyTextGameObject;
 
-	ExerciseDialog exerciseDialog;
-	int id;
+        /// <summary>
+        /// The exercise dialog this panel belongs to
+        /// </summary>
+        private ExerciseDialog _exerciseDialog;
 
-	void Start()
-	{
-		// TODO: dirty hack but seems necessary for resolution-independent layout
-		RectTransform rectTransform = GetComponent<RectTransform>();
-		rectTransform.localScale = new Vector2(1f, 1f);
-	}
+        /// <summary>
+        /// The id of the exercise
+        /// </summary>
+        private int _id;
 
-	public void SetExerciseDialog(ExerciseDialog exerciseDialog)
-	{
-		this.exerciseDialog = exerciseDialog;
-	}
+        void Start()
+        {
+            // TODO: dirty hack but seems necessary for resolution-independent layout
+            var rectTransform = GetComponent<RectTransform>();
+            rectTransform.localScale = new Vector2(1f, 1f);
+        }
 
-	public void SetInitialValues(string id, string title, string author, string faculty)
-	{
-		this.id = int.Parse(id);
+        /// <summary>
+        /// Sets the exercise dialog for this panel.
+        /// </summary>
+        /// <param name="exerciseDialog">The exercise dialog to set</param>
+        public void SetExerciseDialog(ExerciseDialog exerciseDialog)
+        {
+            _exerciseDialog = exerciseDialog;
+        }
 
-		Text titleText = titleTextGameObject.GetComponent<Text>();
-		titleText.text = title;
+        /// <summary>
+        /// Populates this panel with initial values of an exercise.
+        /// </summary>
+        /// <param name="id">The id of an exercise</param>
+        /// <param name="title">The title of an exercise</param>
+        /// <param name="author">The author of an exercise</param>
+        /// <param name="faculty">The faculty an exercise originated from</param>
+        public void SetInitialValues(int id, string title, string author, string faculty)
+        {
+            _id = id;
 
-		Text authorText = authorTextGameObject.GetComponent<Text>();
-		authorText.text = author;
+            var titleText = titleTextGameObject.GetComponent<Text>();
+            titleText.text = title;
 
-		Text facultyText = facultyTextGameObject.GetComponent<Text>();
-		facultyText.text = faculty;
-	}
+            var authorText = authorTextGameObject.GetComponent<Text>();
+            authorText.text = author;
 
-	public void LoadExercise()
-	{
-		exerciseDialog.LoadExercise(id);
-	}
+            var facultyText = facultyTextGameObject.GetComponent<Text>();
+            facultyText.text = faculty;
+        }
+
+        /// <summary>
+        /// Calls the LoadExercise method on the exercise dialog this panel belongs to with the id of the exercise this panel corresponds with.
+        /// </summary>
+        public void LoadExercise()
+        {
+            _exerciseDialog.LoadExercise(_id);
+        }
+    }
 }

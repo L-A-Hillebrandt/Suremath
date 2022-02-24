@@ -1,0 +1,106 @@
+<xsd:schema xmlns:xsd='http://www.w3.org/2001/XMLSchema'>    
+    <xsd:element name='suremath-exercise' type='exercise'/>
+	
+	<xsd:complexType name='exercise'>
+		<xsd:all>
+			<xsd:element name='prompts' type='promptList' minOccurs='1' maxOccurs='1'/>
+			<xsd:element name='shapes' type='shapeList' minOccurs='0' maxOccurs='1'/>
+		</xsd:all>
+		<xsd:attribute name='title' type='xsd:string'/>
+	</xsd:complexType>
+	
+    <xsd:complexType name='value-prompt'>
+		<xsd:simpleContent>
+			<xsd:extension base='xsd:string'>
+				<xsd:attribute type='xsd:string' name='type' use='required' fixed='value'/>
+                <xsd:attribute type='xsd:decimal' name='solution' use='required'/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+
+    <xsd:complexType name='text-prompt'>
+		<xsd:simpleContent>
+			<xsd:extension base='xsd:string'>
+				<xsd:attribute type='xsd:string' name='type' use='required' fixed='text'/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+
+    <xsd:complexType name='point-prompt'>
+		<xsd:simpleContent>
+       		<xsd:extension base='xsd:string'>
+				<xsd:attribute type='xsd:string' name='type' use='required' fixed='point'/>
+				<xsd:attribute type='xsd:decimal' name='solution_x' use='required'/>
+				<xsd:attribute type='xsd:decimal' name='solution_y' use='required'/>
+			</xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+
+    <xsd:complexType name='line'>
+		<xsd:all>
+			<xsd:element name='color' type='color'/>
+			<xsd:element name='handle1' type='handle'/>
+			<xsd:element name='handle2' type='handle'/>
+			<xsd:element name='properties' type='propertyType' minOccurs='0' maxOccurs='1'/>
+			<xsd:element name='unlocks' type='xsd:string' minOccurs='0' maxOccurs='1'/>
+		</xsd:all>
+		<xsd:attribute type='xsd:string' name='name'/>
+		<xsd:attribute type='xsd:integer' name='id'/>
+	</xsd:complexType>
+
+	<xsd:complexType name='parabola'>
+		<xsd:all>
+			<xsd:element name='color' type='color'/>
+			<xsd:element name='originhandle' type='handle'/>
+			<xsd:element name='curvehandle' type='handle'/>
+			<xsd:element name='properties' type='propertyType' minOccurs='0' maxOccurs='1'/>
+			<xsd:element name='unlocks' type='xsd:string' minOccurs='0' maxOccurs='1'/>
+		</xsd:all>
+		<xsd:attribute type='xsd:string' name='name'/>
+	</xsd:complexType>
+
+	<xsd:complexType name='angle'>
+		<xsd:all>
+			<xsd:element name='color' type='color'/>
+			<xsd:element name='lines' type='lineIds'/>
+			<xsd:element name='unlocks' type='xsd:string' minOccurs='0' maxOccurs='1'/>
+		</xsd:all>
+		<xsd:attribute type='xsd:string' name='name'/>
+	</xsd:complexType>
+
+	<xsd:complexType name='color'>
+		<xsd:attribute name='r' type='xsd:decimal' use='required'/>
+		<xsd:attribute name='g' type='xsd:decimal' use='required'/>
+		<xsd:attribute name='b' type='xsd:decimal' use='required'/>
+	</xsd:complexType>
+
+	<xsd:complexType name='handle'>
+		<xsd:attribute name='x' type='xsd:decimal' use='required'/>
+		<xsd:attribute name='y' type='xsd:decimal' use='required'/>
+	</xsd:complexType>
+
+	<xsd:complexType name='propertyType'>
+		<xsd:attribute name='infinite' type='xsd:boolean'/>
+	</xsd:complexType>
+
+	<xsd:complexType name='lineIds'>
+		<xsd:attribute name='a' type='xsd:integer' use='required'/>
+		<xsd:attribute name='b' type='xsd:integer' use='required'/>
+	</xsd:complexType>
+
+	<xsd:complexType name='promptList'>
+		<xsd:choice maxOccurs='unbounded'>
+			<xsd:element name='value-prompt' type='value-prompt' minOccurs='0' maxOccurs='unbounded'/>
+			<xsd:element name='text-prompt' type='text-prompt' minOccurs='0' maxOccurs='unbounded'/>
+			<xsd:element name='point-prompt' type='point-prompt' minOccurs='0' maxOccurs='unbounded'/>
+		</xsd:choice>
+	</xsd:complexType>
+
+	<xsd:complexType name='shapeList'>
+		<xsd:choice maxOccurs='unbounded'>
+			<xsd:element name='line' type='line' minOccurs='0' maxOccurs='unbounded'/>
+			<xsd:element name='parabola' type='parabola' minOccurs='0' maxOccurs='unbounded'/>
+			<xsd:element name='angle' type='angle' minOccurs='0' maxOccurs='unbounded'/>
+		</xsd:choice>
+	</xsd:complexType>
+</xsd:schema>
